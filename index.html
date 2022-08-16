@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Pictule</title>
+    <meta name="name" content="Pictule! (Name in progress)">
+    <meta name="description" content="Reveal parts of an image, guess it within 6 tries.">
+    
+  	<link href="stylesheet.css" rel="stylesheet">
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+  	<header>
+  		<h1 id="title"><span class="green">PICTU</span><span class="red">LE</span></h1>
+  	</header>
+
+  	<hr>
+
+  	<div id="game-container">
+
+  		<div id="main" class="game">
+  			<canvas id="preview"></canvas>
+  			<canvas id="image">Canvas is not supported on this browser</canvas>
+  			<p id="info">Image not found</p>
+  		</div>
+
+  		<div id="results" class="game">
+  			<ul id="attempts" reversed="reversed">
+				
+  			</ul>
+  			<form id="form" class="game" action="javascript:submit()">
+  				<input type="Text" id="userinput" name="guess" autocomplete="off" maxlength="15" autofocus>
+  				<p id="formtip"> </p>
+  			</form>
+  		</div>
+
+  	</div>
+
+    <footer>
+      <h1 id="guesses">Guesses:</h1>
+    </footer>
+
+
+
+  </body>
+</html>

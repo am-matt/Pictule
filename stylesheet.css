@@ -1,0 +1,141 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Futura";
+}
+
+body {
+	height: 100%;
+	width: 100%;
+}
+
+hr {
+	border: 1px lightgray solid;
+}
+
+/* Potentional dark mode soluton */
+/*@media (prefers-color-scheme: dark) {
+	body {
+		color: white;
+		background-color: #191932;	
+	}
+	.green {
+		color: #00c8c8 !important;
+	}
+	.red {
+		color: #c800c8 !important;
+	}
+	#userinput {
+		box-shadow: 0 5px 10px gray !important;
+		background-color: black;
+		color: white;
+		border: 1px gray solid !important;
+	}
+	#userinput:focus {
+		border: 3px gray solid !important;
+		outline: none;
+	}
+}*/
+
+canvas {
+	text-align: left;
+
+}
+
+#image {
+	background-color: black;
+	width: 75%;
+}
+
+#preview {
+	position: absolute;
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+li {
+	font-family: monospace;
+	font-size: 35px;
+	padding: 5px;
+	user-select: none;
+	border-top: 1px solid lightgray
+}
+
+p {
+	font-family: monospace;
+	user-select: none;
+}
+
+.game {
+	text-align: center;
+	display: inline-block;
+	margin: 10px 10px;
+}
+
+.green {
+	color: #4beb53;
+}
+
+.red {
+	color: #eb5b4b;
+}
+
+#main {
+	position: relative;
+	width: 50%;
+}
+
+#title {
+	text-align: center;
+	font-size: 250%;	
+	padding: 5px 0;
+	user-select: none;
+}
+
+#game-container {
+	text-align: center;
+	margin: 5px;
+}
+
+#results {
+	vertical-align: bottom;
+}
+
+#form {
+	margin: 1% auto;
+}
+
+#userinput {
+	height: 75px;
+	width: 400px;
+
+	padding: 5px 10px;
+	
+	border: 1px lightgray solid;
+	border-radius: 5px;
+
+	box-shadow: 0 5px 10px lightgray;
+
+	text-align: center;
+	font-size: 35px;
+	font-family: monospace;
+}
+
+#userinput:focus {
+	border: 3px lightgray solid;
+	outline: none;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
