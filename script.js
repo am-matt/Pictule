@@ -67,7 +67,6 @@ function submit() {
 			guessesLeft.innerHTML = "Tries left: " + attempts;
 		}
 
-
 		newElement.append(newResponse);
 		ulAttempts.append(newElement);
 		formResponse.value = null;

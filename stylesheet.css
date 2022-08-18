@@ -14,30 +14,6 @@ hr {
 	border: 1px lightgray solid;
 }
 
-/* Potentional dark mode soluton */
-/*@media (prefers-color-scheme: dark) {
-	body {
-		color: white;
-		background-color: #191932;	
-	}
-	.green {
-		color: #00c8c8 !important;
-	}
-	.red {
-		color: #c800c8 !important;
-	}
-	#userinput {
-		box-shadow: 0 5px 10px gray !important;
-		background-color: black;
-		color: white;
-		border: 1px gray solid !important;
-	}
-	#userinput:focus {
-		border: 3px gray solid !important;
-		outline: none;
-	}
-}*/
-
 canvas {
 	text-align: left;
 
@@ -118,10 +94,8 @@ p {
 
 	padding: 5px 10px;
 	
-	border: 1px lightgray solid;
+	border: 3px black solid;
 	border-radius: 5px;
-
-	box-shadow: 0 5px 10px lightgray;
 
 	text-align: center;
 	font-size: 35px;
@@ -129,7 +103,7 @@ p {
 }
 
 #userinput:focus {
-	border: 3px lightgray solid;
+	border: 3px black solid;
 	outline: none;
 }
 
@@ -138,4 +112,32 @@ footer {
 	bottom: 0;
 	width: 100%;
 	text-align: center;
+}
+
+/* Potentional dark mode soluton */
+@media (prefers-color-scheme: dark) {
+	hr {
+		border: 1px white solid;
+	}
+	body {
+		color: white;
+		background-color: #191932;	
+	}
+	.green {
+		color: #00c8c8;
+	}
+	.red {
+		color: #c800c8;
+	}
+
+	#userinput {
+		border: 3px white solid;
+		background-color: #191932;
+		color: white;
+	}
+
+	#userinput:focus {
+		border: 3px white solid;
+		outline: none;
+	}
 }
