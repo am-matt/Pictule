@@ -20,7 +20,6 @@ const defSelectSize = 5;
 let attempts = defAttempts;
 guessesLeft.innerHTML = "Tries left: " + attempts;
 
-
 // Declares scale of selection preview
 const scale = 0.15;
 
