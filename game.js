@@ -1,16 +1,7 @@
-const coordinateTxt = document.getElementById("info");
-const guessesLeft = document.getElementById("guesses");
-const formTip = document.getElementById("formtip");
-const ulAttempts = document.getElementById("attempts");
-const formResponse = document.getElementById("userinput");
-const canvas = document.getElementById("image");
-const selector = document.getElementById("preview");
-const imgCtx = canvas.getContext("2d");
-const ctx = selector.getContext("2d");
-
 const defaultParams = {
 	prevScale: 0.15,
-	attempts: 5
+	attempts: 5,
+	selectSize: 5
 }
 
 // Game data object class
@@ -38,8 +29,8 @@ function Session(Elements) {
 	this.imgSizeY,
 	this.prevX,
 	this.prevY,
-	this.sX,
-	this.sY,
+	this.sX = 0,
+	this.sY = 0,
 	this.ratio,
 	this.mouseX,
 	this.mouseY,
@@ -53,6 +44,7 @@ function onSiteLoaded() {
 		guessesLeft: document.getElementById("guesses"),
 		formTip: document.getElementById("formtip"),
 		ulAttempts: document.getElementById("attempts"),
+		form: document.getElementById("form"),
 		formResponse: document.getElementById("userinput"),
 		imgCanvas: document.getElementById("image"),
 		inputCanvas: document.getElementById("preview"),
@@ -84,8 +76,8 @@ function createSession(GameObj, ElementsObj) {
 // Draws the image to canvas
 function setupImg(game, session, elements) {
 	// Gets height and width of loaded image
-	const h = img.naturalHeight;
-	const w = img.naturalWidth;
+	const h = session.img.naturalHeight;
+	const w = session.img.naturalWidth;
 
 	session.imgSizeX = w;
 	session.imgSizeY = h;
@@ -104,22 +96,74 @@ function setupImg(game, session, elements) {
 	const canvasComputeStyle = window.getComputedStyle(elements.imgCanvas);
 	const cWidth = parseInt(canvasComputeStyle.getPropertyValue('width'));
 	const cHeight = parseInt(canvasComputeStyle.getPropertyValue('height'));
-	session.ratio = imgSizeX/cWidth;
+	session.ratio = session.imgSizeX/cWidth;
 
-	session.prevX = (w * session.prevScale) / ratio;
-	session.prevY = (h * session.prevScale) / ratio;
+	session.prevX = (w * game.prevScale) / session.ratio;
+	session.prevY = (h * game.prevScale) / session.ratio;
 
 	elements.inputCanvas.width = cWidth;
 	elements.inputCanvas.height = cHeight;
 
-	elements.coordinateTxt.innerHTML = `Image Size: (${imgSizeX}x${imgSizeY})`;
+	elements.coordinateTxt.innerHTML = `Image Size: (${session.imgSizeX}x${session.imgSizeY})`;
+	elements.guessesLeft.innerHTML = "Tries left: " + game.attemptsLeft;
 
 	elements.inputCanvas.addEventListener("mousemove", (e) => updateMousePos(e, session));
-	elements.inputCanvas.addEventListener("click", (e) => createNewRegion(e, game, session, elements));
+	elements.inputCanvas.addEventListener("click", () => createNewRegion(game, session, elements));
 	elements.inputCanvas.addEventListener("mouseleave", () => updateSelect(game, session, elements));
 	elements.inputCanvas.addEventListener("mouseenter", () => updateSelect(game, session, elements));
+	elements.form.addEventListener("submit", (e) => onGuess(e, game, session, elements));
 
 	window.requestAnimationFrame(() => updateCanvas(game, session, elements));
+}
+
+function drawFullImage(elements, session) {
+	elements.inputCtx.clearRect(0, 0, elements.inputCanvas.width, elements.inputCanvas.height)
+	elements.imgCtx.clearRect(0, 0, elements.imgCanvas.width, elements.imgCanvas.height);
+	elements.imgCtx.drawImage(session.img, 0, 0);
+}
+
+function onGuess(event, game, session, elements) {
+	event.preventDefault();
+	const newResponse = elements.formResponse.value;
+
+	if (newResponse) {
+		const newElement = document.createElement("li");
+		
+		if (newResponse === game.answer) {
+			game.attemptsLeft--;
+			session.selectable = false;
+			session.selectVisiblity = false;
+			drawFullImage(elements, session);
+			newElement.style.color = "green";
+			game.complete = true;
+			elements.formResponse.disabled = true;
+			elements.guessesLeft.innerHTML = "Guessed in " + (defaultParams.attempts - game.attemptsLeft) + " tries!";
+		} else {
+			game.attemptsLeft--;
+			newElement.style.color = "red";
+			session.selectable = true;
+			elements.guessesLeft.innerHTML = "Tries left: " + game.attemptsLeft;
+		}
+
+		newElement.append(newResponse);
+		elements.ulAttempts.append(newElement);
+		elements.formResponse.value = null;
+		elements.formTip.innerHTML = null;
+
+		if (game.attemptsLeft <= 0 && !game.complete) {
+			const correctAnswer = document.createElement("li");
+			correctAnswer.append(game.answer);
+			correctAnswer.style.color = "gold";
+			elements.ulAttempts.append(correctAnswer);
+			session.selectable = false;
+			session.selectVisiblity = false;
+			drawFullImage(elements, session);
+			game.complete = true;
+			elements.formResponse.disabled = true;
+		}	
+	}
+
+	
 }
 
 // Updates mouse vars within canvas
@@ -129,7 +173,7 @@ function updateMousePos(event, session) {
 }
 
 // Adds new image region to data and updates canvas
-function createNewRegion(event, game, session, elements) {
+function createNewRegion(game, session, elements) {
 	if (session.selectable) {
 		const scaledX = session.sX * session.ratio;
 		const scaledY = session.sY * session.ratio;
@@ -163,11 +207,11 @@ function updateCanvas(game, session, elements) {
 			const cHeight = parseInt(canvasComputeStyle.getPropertyValue('height'));
 			elements.inputCanvas.width = cWidth;
 			elements.inputCanvas.height = cHeight;
-			session.prevX = cWidth * scale;
-			session.prevY = cHeight * scale;
+			session.prevX = cWidth * game.prevScale;
+			session.prevY = cHeight * game.prevScale;
 			session.ratio = session.imgSizeX/cWidth;
 
-			elements.inputCtx.clearRect(0, 0, selector.width, selector.height);
+			elements.inputCtx.clearRect(0, 0, elements.inputCanvas.width, elements.inputCanvas.height);
 
 			if (game.regions.length === 0) {
 				elements.inputCtx.font = (cWidth / 25) + "px Arial";
@@ -197,7 +241,7 @@ function updateCanvas(game, session, elements) {
 				elements.inputCtx.beginPath();
 				elements.inputCtx.rect(session.sX, session.sY, session.prevX, session.prevY);
 				elements.inputCtx.strokeStyle = "white";
-				elements.inputCtx.lineWidth = defSelectSize;
+				elements.inputCtx.lineWidth = defaultParams.selectSize;
 				elements.inputCtx.stroke();	
 				elements.coordinateTxt.innerHTML = `Image Size: (${session.imgSizeX}x${session.imgSizeY}) Selection: (${Math.floor(session.sX*session.ratio)}, ${Math.floor(session.sY*session.ratio)})`;
 			} else {
@@ -207,93 +251,15 @@ function updateCanvas(game, session, elements) {
 	window.requestAnimationFrame(() => updateCanvas(game, session, elements));
 }
 
-
-// ----------------------------UNFIXED CODE BELOW------------------------------------- //
-
-// Initializes selected areas array
-let selectVisiblity = false;
-let selectable = true;
-let game = true;
-
-const defAttempts = 5;
-const defTipSize = 20;
-const defSelectSize = 5;
-
-let attempts = defAttempts;
-guessesLeft.innerHTML = "Tries left: " + attempts;
-
-// Declares scale of selection preview
-const scale = 0.15;
-
-// Initializes image object and assigns source url
-let img = new Image();
-img.src = "https://i.insider.com/5484d9d1eab8ea3017b17e29?width=600&format=jpeg&auto=webp";
-let answer = "dog";
-
-// Gets response and creates gues
-let regions = [];
-
-// Initializes imgSize, imgSizeY, prevX, prevY, sX, sY
-let imgSizeX, imgSizeY, prevX, prevY, sX, sY, ratio, mouseX, mouseY;
-
-function drawFullImage() {
-	ctx.clearRect(0, 0, selector.width, selector.height)
-	imgCtx.clearRect(0, 0, canvas.width, canvas.height);
-	imgCtx.drawImage(img, 0, 0);
-}
-
-// Submits attempts
-function submit() {
-	let newResponse = formResponse.value;
-
-	if (newResponse) {
-		const newElement = document.createElement("li");
-		
-		if (newResponse === answer) {
-			attempts--;
-			selectable = false;
-			selectVisiblity = false;
-			drawFullImage();
-			newElement.style.color = "green";
-			game = false;
-			formResponse.disabled = true;
-			guessesLeft.innerHTML = "Guessed in " + (defAttempts - attempts) + " tries!";
-		} else {
-			attempts--;
-			newElement.style.color = "red";
-			selectable = true;
-			guessesLeft.innerHTML = "Tries left: " + attempts;
-		}
-
-		newElement.append(newResponse);
-		ulAttempts.append(newElement);
-		formResponse.value = null;
-		formTip.innerHTML = null;
-
-		if (attempts <= 0 && game === true) {
-			const correctAnswer = document.createElement("li");
-			correctAnswer.append(answer);
-			ulAttempts.append(correctAnswer);
-			correctAnswer.style.color = "gold";
-			selectable = false;
-			selectVisiblity = false;
-			drawFullImage();
-			game = false;
-			formResponse.disabled = true;
-		}	
-	}
-}
-
+/* TO BE IMPLEMENTED LATER:
 // Draws selected regions of image to canvas
 // Function only required for initial page loading
-function drawRegions() {
+/*function drawRegions() {
 	for (let i = 0; i < regions.length; i++) {
 		const regionX = regions[i][0];
 		const regionY = regions[i][1];
 		ctx.drawImage(img, regionX, regionY, prevX, prevY, regionX, regionY, prevX, prevY);
 	}
-}
-
-//
+}*/
 
 document.addEventListener("DOMContentLoaded", onSiteLoaded);
