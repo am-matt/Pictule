@@ -8,6 +8,62 @@ const selector = document.getElementById("preview");
 const imgCtx = canvas.getContext("2d");
 const ctx = selector.getContext("2d");
 
+
+function onSiteLoaded() {
+	// Stores necessary site elements
+	const Elements = {
+		coordinateTxt: document.getElementById("info"),
+		guessesLeft: document.getElementById("guesses"),
+		formTip: document.getElementById("formtip"),
+		ulAttempts: document.getElementById("attempts"),
+		formResponse: document.getElementById("userinput"),
+		imgCanvas: document.getElementById("image"),
+		inputCanvas: document.getElementById("preview"),
+	}
+	Elements.imgCtx = Elements.imgCanvas.getContext("2d");
+	Elements.inputCtx = Elements.inputCanvas.getContext("2d");
+
+
+}
+
+document.addEventListener("DOMContentLoaded", onSiteLoaded);
+
+// Game data object class
+// (Can get cached)
+const Game = (imageSrc, answer, prevScale, attempts) => {
+	// Constant game data
+	this.imageSrc = imageSrc;
+	this.answer = answer;
+	this.prevScale = prevScale;
+
+	// Mutatable data
+	this.complete = false;
+	this.attemptsLeft = attempts;
+	this.guesses = []; // String of guesses
+	this.regions = []; // X/Y 2-index arrays for position
+}
+
+// Object class contains info about game input
+const Session = () => {	
+	this.selectVisibility = false;
+	this.selectable = true;
+	
+	this.imgSizeX;
+	this.imgSizeY;
+	this.prevX;
+	this.prevY;
+	this.sX;
+	this.sY;
+	this.ratio;
+	this.mouseX;
+	this.mouseY;
+}
+
+function createGame(imageSrc, answer, prevScale, attempts) {
+
+}
+
+
 // Initializes selected areas array
 let selectVisiblity = false;
 let selectable = true;
