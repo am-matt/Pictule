@@ -1,3 +1,5 @@
+var games = [];
+
 const defaultParams = {
 	prevScale: 0.15,
 	attempts: 5,
@@ -59,6 +61,7 @@ function onSiteLoaded() {
 	const attempts = defaultParams.attempts; // Default paramter
 
 	const game = new Game(imgSrc, answer, prevScale, attempts);
+	games.push(game);
 	createSession(game, Elements);
 }
 
@@ -125,6 +128,7 @@ function drawFullImage(elements, session) {
 function onGuess(event, game, session, elements) {
 	event.preventDefault();
 	const newResponse = elements.formResponse.value;
+	game.guesses.push(newResponse);
 
 	if (newResponse) {
 		const newElement = document.createElement("li");
@@ -162,8 +166,6 @@ function onGuess(event, game, session, elements) {
 			elements.formResponse.disabled = true;
 		}	
 	}
-
-	
 }
 
 // Updates mouse vars within canvas
