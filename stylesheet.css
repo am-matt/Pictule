@@ -118,7 +118,7 @@ header {
 }
 
 #results {
-	vertical-align: bottom;
+	vertical-align: top;
 }
 
 #form {
@@ -166,6 +166,7 @@ header {
 	width: 400px;
 	display: flex;
 	margin-top: 5px;
+	margin-bottom: 10px;
 
 	border: 3px white solid;
 	background-color: #191932;
@@ -181,7 +182,7 @@ hr {
 ul {
 	text-align: center;
 	list-style-type: none;
-	
+
 	display: flex;
 	flex-direction: column-reverse;
 }

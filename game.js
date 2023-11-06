@@ -13,7 +13,7 @@ const defaultParams = {
 
 // Animations
 const newEntryAnimation = [
-	{ transform: "translateY(50px)", opacity: 0.0, scale: 0.25 },
+	{ transform: "translateY(-50px)", opacity: 0.0, scale: 0.25 },
 	{ transform: "translateY(0px)", opacity: 1.0, scale: 1 },
 ];
 
@@ -22,6 +22,11 @@ const newEntryTiming = {
 	iterations: 1,
 	easing: "cubic-bezier(0, 1, 1, 1)"
 };
+
+const newEntryAdjustAnimation = [
+	{ transform: "translateY(-50px)" },
+	{ transform: "translateY(0px" }
+]
 
 const shinyEffectAnimation = [
 	{ backgroundPosition: "300px" }
@@ -254,9 +259,11 @@ function addEntry(value, color, elements) {
 	elements.ulAttempts.append(newElement);
 	elements.formResponse.value = null;
 	elements.formTip.innerHTML = null;
+
+	for (const li of elements.ulAttempts.children) {
+		li.animate(newEntryAdjustAnimation, newEntryTiming);
+	}
 }
-
-
 
 // Updates mouse vars within canvas
 function updateMousePos(event, session) {
