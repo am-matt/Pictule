@@ -3,7 +3,7 @@
   <head>
   	<title>Pictule</title>
     <meta name="name" content="Pictule! (Name in progress)">
-    <meta name="description" content="Reveal parts of an image, guess it within 6 tries.">
+    <meta name="description" content="Reveal parts of an image, guess it within 5 attempts.">
 	<meta name="viewport" content="width=device-width">
     
   	<link href="stylesheet.css" rel="stylesheet">
@@ -13,35 +13,37 @@
   <body>
   	<header>
   		<h1 id="title"><span class="green">PICTU</span><span class="red">LE</span></h1>
+		<div id="menu-buttons">
+			<div id="menu-icon-box" class="menu-box">
+				<div id="menu-icon" class="menu-button"></div>
+			</div>
+		</div>
   	</header>
-
   	<hr>
-
   	<div id="game-container">
 
   		<div id="main" class="game">
   			<canvas id="preview"></canvas>
   			<canvas id="image">Canvas is not supported on this browser</canvas>
   			<p id="info">Image not found</p>
+			<p id="fps">fps:</p>
   		</div>
+
+		
 
   		<div id="results" class="game">
   			<ul id="attempts" reversed="reversed">
 				<!-- ATTEMPTS LIST -->
   			</ul>
-  			<form id="form" class="game" action="">
-  				<input type="Text" id="userinput" name="guess" autocomplete="off" maxlength="15" autofocus>
-  				<p id="formtip"> </p>
-  			</form>
+			<div id="input-area">
+				<p id="guesses">1</p>
+				<form id="form" class="game" action="">
+					<input type="Text" id="userinput" name="guess" autocomplete="off" maxlength="14" autofocus>
+				</form>
+				
+			</div>
+			<p id="formtip"> </p>
   		</div>
-
   	</div>
-
-    <footer>
-      <h1 id="guesses">Guesses:</h1>
-    </footer>
-
-
-
   </body>
 </html>

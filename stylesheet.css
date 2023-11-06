@@ -1,3 +1,4 @@
+/* Global */
 * {
 	margin: 0;
 	padding: 0;
@@ -6,18 +7,90 @@
 }
 
 body {
+	color: white;
+	background-color: #191932;	
+
 	height: 100%;
 	width: 100%;
 }
 
-hr {
-	border: 1px lightgray solid;
+/* Header */
+header {
+	background-color: #333366;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-canvas {
-	text-align: left;
 
+#title {
+	text-shadow: -4px 4px #0d0d1a;
+	text-align: center;
+	vertical-align: center;
+	font-size: 250%;	
+	padding: 5px 0;
+	user-select: none;
 }
+
+/* Header -> Buttons */
+#menu-buttons {
+	display: flex;
+	position: absolute;
+	right: 0;
+	margin: 5px;
+}
+
+#menu-icon {	
+	mask-image: url("/Files/Icons/menu.svg");
+	-webkit-mask-image: url("/Files/Icons/menu.svg");
+}
+
+.menu-box {
+	height: 55px;
+	width: 55px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center; 
+}
+
+.menu-button {
+	height: 90%;
+	width: 90%;
+
+	mask-size: contain;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+
+	transition: height 0.2s ease;
+	transition: width 0.2s ease;
+	background: #00c8c8;
+}
+
+.menu-button:hover {
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	background: #c800c8;
+}
+
+#menu-icon:active {
+	height: 80%;
+	width: 80%;
+}
+
+.green {
+	color: #00c8c8;
+}
+
+.red {
+	color: #c800c8;
+}
+
+/* Game */
 
 #image {
 	background-color: black;
@@ -28,51 +101,15 @@ canvas {
 	position: absolute;
 }
 
-ul {
-	text-align: center;
-	list-style-type: none;
-	
-	display: flex;
-	flex-direction: column-reverse;
-}
-
-li {
-	font-family: monospace;
-	font-size: 35px;
-	padding: 5px;
-	user-select: none;
-	border-top: 1px solid lightgray
-}
-
-p {
-	font-family: monospace;
-	user-select: none;
-}
-
 .game {
 	text-align: center;
 	display: inline-block;
 	margin: 10px 10px;
 }
 
-.green {
-	color: #4beb53;
-}
-
-.red {
-	color: #eb5b4b;
-}
-
 #main {
 	position: relative;
 	width: 50%;
-}
-
-#title {
-	text-align: center;
-	font-size: 250%;	
-	padding: 5px 0;
-	user-select: none;
 }
 
 #game-container {
@@ -89,55 +126,102 @@ p {
 }
 
 #userinput {
-	height: 75px;
-	width: 400px;
+	height: 100%;
+	width: 100%;
+	color: white;
 
-	padding: 5px 10px;
-	
-	border: 3px black solid;
-	border-radius: 5px;
+	padding: 2px;
+
+	background-color: #191932;
+
+	outline: none;
+	border: none;
 
 	text-align: center;
+	text-transform: lowercase;
 	font-size: 35px;
-	font-family: monospace;
+	
+
+	border-left: 3px solid white;
 }
 
 #userinput:focus {
-	border: 3px black solid;
 	outline: none;
 }
 
-footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	text-align: center;
+#guesses {
+	font-family: "Futura";
+	width: 25%;
+	margin: auto;
+
+	font-weight: bold;
+	text-shadow: -4px 4px #0d0d1a;
+
+	font-size: 40px;
+	line-height: 100%;
 }
 
-/* Potentional dark mode soluton */
-@media (prefers-color-scheme: dark) {
-	hr {
-		border: 1px white solid;
-	}
-	body {
-		color: white;
-		background-color: #191932;	
-	}
-	.green {
-		color: #00c8c8;
-	}
-	.red {
-		color: #c800c8;
-	}
+#input-area {
+	height: 75px;
+	width: 400px;
+	display: flex;
+	margin-top: 5px;
 
-	#userinput {
-		border: 3px white solid;
-		background-color: #191932;
-		color: white;
-	}
+	border: 3px white solid;
+	background-color: #191932;
+	
+	border-radius: 5px;
+	outline: none;
+}
 
-	#userinput:focus {
-		border: 3px white solid;
-		outline: none;
-	}
+hr {
+	border: 3px #0d0d1a solid;
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+li {
+	font-size: 35px;
+	margin: 5px;
+	padding: 3px;
+	border-radius: 5px;
+	user-select: none;
+	box-shadow: #0d0d1a 0 5px; 
+
+	background: linear-gradient(135deg, #333366 40%, rgba(255, 255, 255, 0.5) 50%, #333366 60%);
+	background-color: #333366;
+	background-repeat: no-repeat;
+	background-position: -300px;
+}
+
+p {
+	font-family: monospace;
+	user-select: none;
+}
+
+canvas {
+	text-align: left;
+}
+
+/* Animations */
+
+.danger {
+	animation-name: redwhite;
+	animation-duration: 2s;
+	animation-delay: 0s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+}
+
+@keyframes redwhite {
+	0% {color: white;}
+	50% {color: red;}
+	100% {color: white;}
 }
