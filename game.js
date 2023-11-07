@@ -261,7 +261,10 @@ function addEntry(value, color, elements) {
 	elements.formTip.innerHTML = null;
 
 	for (const li of elements.ulAttempts.children) {
-		li.animate(newEntryAdjustAnimation, newEntryTiming);
+		if (li != newElement) {
+			li.animate(newEntryAdjustAnimation, newEntryTiming);
+		}
+		
 	}
 }
 
